@@ -14,7 +14,7 @@ class OneColumnTemplate extends Component {
 
         return (
         <div>
-            <h2>The page template</h2>
+            <h2>The page template (One Column Template)</h2>
             <ConentZone modules={this.props.page.zones.main} />
         </div>
         );

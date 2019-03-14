@@ -30,7 +30,12 @@ class Page extends Component {
 
             const path = document.location.pathname;
 
-            const pageInSitemap = sitemap[path];
+            let pageInSitemap = sitemap[path];
+
+            if(path === '/') {
+                let firstPagePathInSitemap = Object.keys(sitemap)[0];
+                pageInSitemap = sitemap[firstPagePathInSitemap];
+            }
 
             if(pageInSitemap) {
                 console.log('page in sitemap found :)', pageInSitemap);
