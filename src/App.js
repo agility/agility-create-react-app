@@ -1,58 +1,73 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import agility from 'agility-js-sdk'
+//import aglFetch from '@agility/content-fetch'
+
+import Page from './agility/page'
 
 class App extends Component {
   componentDidMount() {
     
-    var api = agility.getApi({
-      instanceID: '1234-1234',
-      accessToken: 'fEpTcRnWO3EahHbojDCeY3PwGwAzpw2gveDuPn2l0nuqFbQYVcWrQ+a3/DHcWgCgn7UL2tgbSOS0AqrEOiXkTg==',
-      languageCode: 'en-us'
-    })
+    // var api = aglFetch.getApi({
+    //   instanceID: '1234-1234',
+    //   accessToken: 'fEpTcRnWO3EahHbojDCeY3PwGwAzpw2gveDuPn2l0nuqFbQYVcWrQ+a3/DHcWgCgn7UL2tgbSOS0AqrEOiXkTg==',
+    //   languageCode: 'en-us'
+    // })
 
-    api.getSitemapFlat()
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(response) {
-          console.log(response);
-      });
+    // //Get Content Item
+    // api.getContentItem({
+    //   contentID: 22
+    // })
+    // .then(function(contentItem) {
+    //     console.log(contentItem);
+    // })
+    // .catch(function(error) {
+    //     console.log(error);
+    // });
 
-      api.getSitemapNested()
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(response) {
-          console.log(response);
-      });
+    // //Get Content List
+    // api.getContentList({
+    //   referenceName: 'posts' 
+    // })
+    // .then(function(response) {
+    //   console.log(response);
+    // })
+    // .catch(function(response) {
+    //     console.log(response);
+    // });
 
-      api.getContentItem(22)
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(response) {
-          console.log(response);
-      });
+    // //Get Page
+    // api.getPage({
+    //     pageID: 1
+    // })
+    // .then(function(page) {
+    //     console.log(page);
+    // })
+    // .catch(function(error) {
+    //     console.log(error);
+    // });
 
-      api.getContentList("posts")
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(response) {
-          console.log(response);
-      });
+    // //Get Sitemap Flat
+    // api.getSitemapFlat({
+    //   channelID: 1
+    // })
+    // .then(function(sitemap) {
+    //   console.log(sitemap);
+    // })
+    // .catch(function(error) {
+    //     console.log(error);
+    // });
 
-      api.getPage(1)
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(response) {
-          console.log(response);
-      });
-
-      
+    // //Get Sitemap Nested
+    // api.getSitemapNested({
+    //   channelID: 1
+    // })
+    // .then(function(sitemap) {
+    //   console.log(sitemap);
+    // })
+    // .catch(function(error) {
+    //     console.log(error);
+    // });
   }
   render() {    
 
@@ -62,8 +77,11 @@ class App extends Component {
           <h1>This is the header</h1>
         </header>
         <main>
-          <h2>This is the main content</h2>
+          <Page />
         </main>
+        <footer>
+          <h1>This is the footer</h1>
+        </footer>
       </div>
     );
   }
