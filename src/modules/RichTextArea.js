@@ -3,11 +3,6 @@ import React, { Component } from 'react';
 
 
 class RichTextArea extends Component {
-    constructor(props) {
-        super(props);
-
-    }
-
     componentDidMount() {
 
     }

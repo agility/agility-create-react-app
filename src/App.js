@@ -1,87 +1,59 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-//import aglFetch from '@agility/content-fetch'
 
-import Page from './agility/page'
+//The Agility Fetch API Client
+import agility from '@agility/content-fetch'
+
+//The Agility Router
+import { PageRouter } from './agility-react'
+
+//Our Agility Modules
+import RichTextArea from './modules/RichTextArea'
+import PostListing from './modules/PostListing'
+
+//Our Agility PageTemplates
+import OneColumnTemplate from './pageTemplates/OneColumnTemplate'
+
+//Shared Components
+import GlobalHeader from './GlobalHeader'
 
 class App extends Component {
-  componentDidMount() {
-    
-    // var api = aglFetch.getApi({
-    //   instanceID: '1234-1234',
-    //   accessToken: 'fEpTcRnWO3EahHbojDCeY3PwGwAzpw2gveDuPn2l0nuqFbQYVcWrQ+a3/DHcWgCgn7UL2tgbSOS0AqrEOiXkTg==',
-    //   languageCode: 'en-us'
-    // })
+  constructor(props) {
+    super(props)
 
-    // //Get Content Item
-    // api.getContentItem({
-    //   contentID: 22
-    // })
-    // .then(function(contentItem) {
-    //     console.log(contentItem);
-    // })
-    // .catch(function(error) {
-    //     console.log(error);
-    // });
+    this.agilityApiClient = agility.getApi({
+      instanceID: '1234-1234', //Set your instanceID here
+      accessToken: 'fEpTcRnWO3EahHbojDCeY3PwGwAzpw2gveDuPn2l0nuqFbQYVcWrQ+a3/DHcWgCgn7UL2tgbSOS0AqrEOiXkTg==', //Set your access token here
+    })
 
-    // //Get Content List
-    // api.getContentList({
-    //   referenceName: 'posts' 
-    // })
-    // .then(function(response) {
-    //   console.log(response);
-    // })
-    // .catch(function(response) {
-    //     console.log(response);
-    // });
+    this.agilityPageRouterConfig = {
+      apiClient: this.agilityApiClient,
+      languageCode: 'en-us',
+      channelName: 'website',
+      moduleComponents: {
+        RichTextArea,
+        PostListing
+      },
+      pageTemplateComponents: {
+        OneColumnTemplate
+      },
+      onPageRoutingError: (errorMsg, error) => {
+        console.error(errorMsg, error);
+      },
+      onPageNotFound: (errorMsg) => {
+        console.warn(errorMsg);
+      }
+    }
 
-    // //Get Page
-    // api.getPage({
-    //     pageID: 1
-    // })
-    // .then(function(page) {
-    //     console.log(page);
-    // })
-    // .catch(function(error) {
-    //     console.log(error);
-    // });
-
-    // //Get Sitemap Flat
-    // api.getSitemapFlat({
-    //   channelID: 1
-    // })
-    // .then(function(sitemap) {
-    //   console.log(sitemap);
-    // })
-    // .catch(function(error) {
-    //     console.log(error);
-    // });
-
-    // //Get Sitemap Nested
-    // api.getSitemapNested({
-    //   channelID: 1
-    // })
-    // .then(function(sitemap) {
-    //   console.log(sitemap);
-    // })
-    // .catch(function(error) {
-    //     console.log(error);
-    // });
   }
-  render() {    
 
+  render() {    
     return (
       <div className="App">
-        <header className="App-header">
-          <h1>This is the header</h1>
-        </header>
+        <GlobalHeader apiClient={this.agilityApiClient} contentReferenceName='GlobalHeader' />
         <main>
-          <Page />
+          <PageRouter {...this.agilityPageRouterConfig} />
         </main>
-        <footer>
-          <h1>This is the footer</h1>
-        </footer>
       </div>
     );
   }
