@@ -1,15 +1,15 @@
 .App {
-  text-align: center;
+ 
 }
 
-
-.App-header {
-
-  font-size: calc(10px + 2vmin);
+.App .main {
 
 }
 
-.App-link {
-  color: #61dafb;
+.App .container {
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
 }
+
 

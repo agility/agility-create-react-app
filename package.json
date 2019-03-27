@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@agility/content-fetch": "0.2.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
-    "@agility/content-fetch": "0.2.2"
+    "truncate-html": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
