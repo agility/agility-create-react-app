@@ -1,13 +1,4 @@
 import React, { Component } from 'react';
-import agilityConfig from './agility.config'
-import contentFetchApi from '@agility/content-fetch'
-
-function getApi() {
-    return contentFetchApi.getApi({
-        instanceID: agilityConfig.instanceID,
-        accessToken: agilityConfig.accessToken
-    })
-}
 
 class PageRouter extends Component {
     constructor(props) {
@@ -65,8 +56,8 @@ class PageRouter extends Component {
             return Promise.resolve(this.sitemap);
         } else {
             const promise =  api.getSitemapFlat({
-                channelName: agilityConfig.channelName,
-                languageCode: agilityConfig.languageCode
+                channelName: this.props.agility.config.channelName,
+                languageCode: this.props.agility.config.languageCode
             });
             promise.then(sitemap => {
                 console.log(sitemap);
@@ -77,7 +68,7 @@ class PageRouter extends Component {
     }
 
     routePage() {
-        const api = getApi()
+        const api = this.props.agility.client;
 
         //only get the sitemap once ;)
         this.getSitemap(api)
@@ -96,7 +87,7 @@ class PageRouter extends Component {
                 //GET PAGE
                 api.getPage({
                     pageID: pageInSitemap.pageID,
-                    languageCode: agilityConfig.languageCode
+                    languageCode: this.props.agility.config.languageCode
                 })
                 .then(page =>  {
                     this.setPage(page, pageInSitemap);
@@ -164,8 +155,8 @@ class PageRouter extends Component {
         if(this.state.page != null) {
             //HACK: need a proper reference name for page templates
             const pageTemplateName = this.state.page.templateName.replace(/[^0-9a-zA-Z]/g, '')
-            const AgilityPageTemplateComponentToRender = agilityConfig.pageTemplateComponents[pageTemplateName];
-            return <AgilityPageTemplateComponentToRender page={this.state.page} pageInSitemap={this.state.pageInSitemap} moduleComponents={agilityConfig.moduleComponents} />
+            const AgilityPageTemplateComponentToRender = this.props.agility.config.pageTemplateComponents[pageTemplateName];
+            return <AgilityPageTemplateComponentToRender page={this.state.page} pageInSitemap={this.state.pageInSitemap} agility={this.props.agility} />
         }
     }
 
@@ -197,11 +188,12 @@ class ContentZone extends Component {
         }
 
         modulesForThisContentZone.forEach(moduleItem => {
-            const ModuleComponentToRender = agilityConfig.moduleComponents[moduleItem.module];
+            const ModuleComponentToRender = this.props.agility.config.moduleComponents[moduleItem.module];
             if(ModuleComponentToRender) {
                 const propsToModule = {
                     item: moduleItem.item,
-                    pageInSitemap: this.props.pageInSitemap
+                    pageInSitemap: this.props.pageInSitemap,
+                    agility: this.props.agility
                 }
                 modules.push(<ModuleComponentToRender key={moduleItem.item.contentID} {...propsToModule} />)
             } else {
@@ -225,7 +217,6 @@ class ContentZone extends Component {
 
 export {
     PageRouter,
-    ContentZone,
-    getApi
+    ContentZone
 }
 

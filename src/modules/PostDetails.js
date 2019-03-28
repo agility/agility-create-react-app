@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { getApi } from '../agility-react'
-import agilityConfig from '../agility.config'
+
 
 import './PostDetails.css'
 
@@ -12,10 +11,10 @@ class PostDetails extends Component {
         }
     }
     componentDidMount() {
-        const api = getApi();
+        const api = this.props.agility.client;
         api.getContentItem({
             contentID: this.props.pageInSitemap.contentID,
-            languageCode: agilityConfig.languageCode
+            languageCode: this.props.agility.config.languageCode
         })
         .then(post => {
             console.log('dynamicPost', post)

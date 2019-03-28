@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { getApi } from '../agility-react'
-import agilityConfig from '../agility.config'
 import './PostListing.css'
 import truncate from 'truncate-html'
 
@@ -14,19 +12,19 @@ class PostsListing extends Component {
         }
     }
     componentDidMount() {
-        const api = getApi();
+        const api = this.props.agility.client;
 
         //TODO: Need a proper way to cache the sitemap
         //get sitemap first, need it to find the dynamic urls
         api.getSitemapFlat({
-            channelName: agilityConfig.channelName,
-            languageCode: agilityConfig.languageCode
+            channelName: this.props.agility.config.channelName,
+            languageCode: this.props.agility.config.languageCode
         })
         .then(sitemap => {
             //then get our posts
             api.getContentList({
                 referenceName: 'posts',
-                languageCode: agilityConfig.languageCode
+                languageCode: this.props.agility.config.languageCode
             })
             .then(contentListResult => {
                 console.log('posts', contentListResult);

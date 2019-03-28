@@ -12,6 +12,9 @@ export default {
     accessToken: 'WcOt8LMD3UghwaY2g5zNqofY126dG4FwozpJQ/2q1uVVcBSyqPa1nNcgGi1bmlC15/2EJNxFQZI/nxuPNWG0hw==', //Set your accessToken here
     languageCode: 'en-us',
     channelName: 'website',
+    caching: {
+        maxAge: 120000 //2 mins
+    },
     moduleComponents: {
         RichTextArea,
         PostsListing,

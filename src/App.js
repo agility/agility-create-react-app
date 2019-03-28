@@ -11,21 +11,13 @@ import GlobalHeader from './GlobalHeader'
 
 class App extends Component {
 
-  onPageRoutingError = (errorMsg, error) => {
-    console.error(errorMsg, error);
-  }
-
-  onPageNotFound = (errorMsg) => {
-    console.warn(errorMsg);
-  }
-
   render() {    
     return (
       <div className="App">
-        <GlobalHeader />
+        <GlobalHeader agility={this.props.agility}/>
         <main className="main">
           <Switch>
-            <Route path="*" render={() => <PageRouter onPageRoutingError={this.onPageRoutingError} onPageNotFound={this.onPageNotFound} />} />
+            <Route path="*" render={() => <PageRouter agility={this.props.agility} />} />
           </Switch>
         </main>
       </div>

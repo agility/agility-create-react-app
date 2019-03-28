@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { getApi } from './agility-react'
 import { Link } from 'react-router-dom'
-import agilityConfig from './agility.config'
 import './GlobalHeader.css'
 
 class GlobalHeader extends Component {
@@ -13,11 +11,11 @@ class GlobalHeader extends Component {
     }
   }
   componentDidMount = () => {
-    const api = getApi();
+    const api = this.props.agility.client;
 
     api.getContentItem({
       contentID: 21,
-      languageCode: agilityConfig.languageCode
+      languageCode: this.props.agility.config.languageCode
     })
     .then(contentItem => {
       this.setState({contentItem: contentItem});
@@ -27,8 +25,8 @@ class GlobalHeader extends Component {
     })
 
     api.getSitemapNested({
-      channelName: agilityConfig.channelName,
-      languageCode: agilityConfig.languageCode
+      channelName: this.props.agility.config.channelName,
+      languageCode: this.props.agility.config.languageCode
     })
     .then(sitemap => {
       console.log('nested sitemap', sitemap)
