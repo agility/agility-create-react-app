@@ -9,7 +9,7 @@ import OneColumnTemplate from './pageTemplates/OneColumnTemplate'
 
 export default {
     instanceID: '191309ca-e675-4be2-bb29-351879528707', //Set your instanceID here
-    accessToken: 'WcOt8LMD3UghwaY2g5zNqofY126dG4FwozpJQ/2q1uVVcBSyqPa1nNcgGi1bmlC15/2EJNxFQZI/nxuPNWG0hw==', //Set your accessToken here
+    accessToken: 'aGd13M.fa30c36e553a36f871860407e902da9a7375322457acd6bcda038e60af699411', //Set your accessToken here
     languageCode: 'en-us',
     channelName: 'website',
     caching: {
