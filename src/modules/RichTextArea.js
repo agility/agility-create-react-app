@@ -7,12 +7,12 @@ class RichTextArea extends Component {
 
     }
     setHTML = () => {
-        return {__html: this.props.fields.textblob};
+        return {__html: this.props.item.fields.textblob};
     }
     render() {    
         const setHTML = this.setHTML();
         return (
-            <section>
+            <section className="container">
                 <h3>From Rich Text Area Module:</h3>
                 <div dangerouslySetInnerHTML={setHTML}></div>
             </section>
