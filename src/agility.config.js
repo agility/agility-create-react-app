@@ -8,8 +8,8 @@ import Jumbotron from './modules/Jumbotron'
 import OneColumnTemplate from './pageTemplates/OneColumnTemplate'
 
 export default {
-    instanceID: '191309ca-e675-4be2-bb29-351879528707', //Set your instanceID here
-    accessToken: 'aGd13M.c55f8b8ea74243b60e9703bcc588a790ceb71f63a11d3caedfceebf811cd2279', //Set your accessToken here
+    guid: '191309ca-e675-4be2-bb29-351879528707', //Set your guid here
+    accessToken: 'crafetch.9df8d3a3ef19205d82b479f80d4f111479e63a5a08d541502c8ce324e018672b', //Set your accessToken here
     languageCode: 'en-us',
     channelName: 'website',
     caching: {
