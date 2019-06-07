@@ -1,4 +1,4 @@
-This is a react site using the Agility Content Fetch SDK.
+This is a react site using the Agility Content Fetch SDK (Dev).
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/16edd468-2540-4266-8a76-d0f69c8feb5c/deploy-status)](https://app.netlify.com/sites/nervous-thompson-6a3d95/deploys)
 
