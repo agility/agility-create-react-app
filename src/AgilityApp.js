@@ -18,7 +18,9 @@ class AgilityApp extends Component {
         return agilityContentFetch.getApi({
             guid: agilityConfig.guid,
             accessToken: agilityConfig.accessToken,
-            caching: agilityConfig.caching
+            caching: agilityConfig.caching,
+            //baseUrl: 'https://agility-fetch-api-dev.azurewebsites.net',
+            //baseUrl: 'https://james-manual-test.agilitycms.cloud'
         })
     }
 
