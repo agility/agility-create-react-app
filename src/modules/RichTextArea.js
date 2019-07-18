@@ -13,7 +13,6 @@ class RichTextArea extends Component {
         const setHTML = this.setHTML();
         return (
             <section className="container">
-                <h3>From Rich Text Area Module:</h3>
                 <div dangerouslySetInnerHTML={setHTML}></div>
             </section>
         );
