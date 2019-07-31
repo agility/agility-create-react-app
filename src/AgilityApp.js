@@ -13,12 +13,13 @@ class AgilityApp extends Component {
             onPageNotFound: this.onPageNotFound
         }
     }
-  
+
     createClient() {
         return agilityContentFetch.getApi({
             guid: agilityConfig.guid,
             accessToken: agilityConfig.accessToken,
             caching: agilityConfig.caching,
+            isPreview: agilityConfig.isPreview,
             //baseUrl: 'https://agility-fetch-api-dev.azurewebsites.net',
             //baseUrl: 'https://james-manual-test.agilitycms.cloud'
         })
@@ -26,13 +27,13 @@ class AgilityApp extends Component {
 
     onPageRoutingError = (errorMsg, error) => {
         console.error(errorMsg, error);
-      }
-    
+    }
+
     onPageNotFound = (errorMsg) => {
         console.warn(errorMsg);
     }
 
-    render() {    
+    render() {
         return (
             <App agility={this.agility} />
         );
