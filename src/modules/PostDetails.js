@@ -10,27 +10,28 @@ class PostDetails extends Component {
             post: null
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
         const api = this.props.agility.client;
-        api.getContentItem({
-            contentID: this.props.pageInSitemap.contentID,
-            languageCode: this.props.agility.config.languageCode
-        })
-        .then(post => {
-            console.log('dynamicPost', post)
-            this.setState({post: post})
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        try {
+            let post = await api.getContentItem({
+                contentID: this.props.pageInSitemap.contentID,
+                languageCode: this.props.agility.config.languageCode
+            });
+
+            this.setState({ post: post })
+
+        } catch (error) {
+            if (console) console.log(error);
+        }
     }
     renderPostContent(html) {
-        return {__html: html };
+        return { __html: html };
     }
     renderPost() {
         let post = null;
-        if(this.state.post != null) {
-            
+        console.log("post state", this.state.post);
+        if (this.state.post != null) {
+
             post = (
                 <div className="post">
                     <h1>{this.state.post.fields.title}</h1>
@@ -39,7 +40,7 @@ class PostDetails extends Component {
                     }
                     <div className="post-content" dangerouslySetInnerHTML={this.renderPostContent(this.state.post.fields.details)}></div>
                 </div>);
-            
+
         }
         return post;
     }

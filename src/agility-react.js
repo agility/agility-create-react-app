@@ -16,8 +16,8 @@ class PageRouter extends Component {
     }
 
     //required when using the react-router-dom, since it thinks each page is the same component/content, we need todo some logic here
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(prevState.path !== document.location.pathname){
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.path !== document.location.pathname) {
             return {
                 page: null,
                 pageInSitemap: null,
@@ -27,13 +27,13 @@ class PageRouter extends Component {
                 errorMessage: null,
                 path: document.location.pathname
             }
-         }
-         else return null;
-     }
-     
-     componentDidUpdate(prevProps, prevState) {
+        }
+        else return null;
+    }
+
+    async componentDidUpdate(prevProps, prevState) {
         //did the path change? If so, we need to re-route
-        if(prevState.path !== document.location.pathname){
+        if (prevState.path !== document.location.pathname) {
             this.setState({
                 page: null,
                 pageInSitemap: null,
@@ -43,82 +43,84 @@ class PageRouter extends Component {
                 errorMessage: null,
                 path: document.location.pathname
             });
-            this.routePage()
-        }
-     }
 
-    componentDidMount() {
-        this.routePage();
+            await this.routePage();
+
+        }
     }
 
-    getSitemap(api) {
-        if(this.sitemap != null) {
+    async componentDidMount() {
+        await this.routePage();
+    }
+
+    async getSitemap(api) {
+        if (this.sitemap != null) {
+            //return the cached version of the sitemap if we can
             return Promise.resolve(this.sitemap);
         } else {
-            const promise =  api.getSitemapFlat({
+            //get the sitemap...
+            this.sitemap = await api.getSitemapFlat({
                 channelName: this.props.agility.config.channelName,
                 languageCode: this.props.agility.config.languageCode
             });
-            promise.then(sitemap => {
-                console.log(sitemap);
-                this.sitemap = sitemap;
-            })
-            return promise;
+
+            // promise.then(sitemap => {
+            //  this.sitemap = sitemap;
+            //})
+            return Promise.resolve(this.sitemap);
         }
     }
 
-    routePage() {
+    async routePage() {
         const api = this.props.agility.client;
+        try {
+            //only get the sitemap once ;)
+            let sitemap = await this.getSitemap(api);
 
-        //only get the sitemap once ;)
-        this.getSitemap(api)
-        .then(sitemap =>  {
             const path = document.location.pathname;
             let pageInSitemap = sitemap[path];
 
-            if(path === '/') {
+            if (path === '/') {
                 let firstPagePathInSitemap = Object.keys(sitemap)[0];
                 pageInSitemap = sitemap[firstPagePathInSitemap];
             }
 
-            if(pageInSitemap) {
-                console.log('page in sitemap found :)', pageInSitemap);
+            if (pageInSitemap) {
 
                 //GET PAGE
                 api.getPage({
                     pageID: pageInSitemap.pageID,
                     languageCode: this.props.agility.config.languageCode
                 })
-                .then(page =>  {
-                    this.setPage(page, pageInSitemap);
-                })
-                .catch(error => {
-                    //Throw error
-                    this.handleError('error getting page item', error);
-                });
+                    .then(page => {
+                        this.setPage(page, pageInSitemap);
+                    })
+                    .catch(error => {
+                        //Throw error
+                        this.handleError('error getting page item', error);
+                    });
 
             } else {
                 //Could not find page
-               this.pageNotFound();
+                this.pageNotFound();
             }
 
-        })
-        .catch(error => {
+        } catch (error) {
             //Throw error
             this.handleError('error getting sitemap :(', error);
-        });
+        }
     }
 
     setPage = (page, pageInSitemap) => {
-        console.log('page item', page);
+
         this.setState({
-                        page: page,
-                        pageInSitemap: pageInSitemap,
-                        loading: false,
-                        isError: false,
-                        isPageNotFound:false,
-                        errorMessage: null
-                    });
+            page: page,
+            pageInSitemap: pageInSitemap,
+            loading: false,
+            isError: false,
+            isPageNotFound: false,
+            errorMessage: null
+        });
     }
 
     handleError = (msg, error) => {
@@ -128,10 +130,10 @@ class PageRouter extends Component {
             pageInSitemap: null,
             loading: false,
             isError: true,
-            isPageNotFound:false,
+            isPageNotFound: false,
             errorMessage: msg
         });
-        if(this.props.onPageRoutingError && typeof(this.props.onPageRoutingError) === 'function') {
+        if (this.props.onPageRoutingError && typeof (this.props.onPageRoutingError) === 'function') {
             this.props.onPageRoutingError(msg, error);
         }
     }
@@ -142,17 +144,17 @@ class PageRouter extends Component {
             pageInSitemap: null,
             loading: false,
             isError: false,
-            isPageNotFound:true, 
+            isPageNotFound: true,
             errorMessage: 'page NOT found in sitemap :('
         });
-        if(this.props.onPageNotFound && typeof(this.props.onPageNotFound) === 'function') {
+        if (this.props.onPageNotFound && typeof (this.props.onPageNotFound) === 'function') {
             this.props.onPageNotFound(this.state.errorMessage);
         }
     }
 
     renderTemplate = () => {
 
-        if(this.state.page != null) {
+        if (this.state.page != null) {
             //HACK: need a proper reference name for page templates
             const pageTemplateName = this.state.page.templateName.replace(/[^0-9a-zA-Z]/g, '')
             const AgilityPageTemplateComponentToRender = this.props.agility.config.pageTemplateComponents[pageTemplateName];
@@ -160,8 +162,8 @@ class PageRouter extends Component {
         }
     }
 
-    render() {    
-        
+    render() {
+
         const renderPageTemplate = this.renderTemplate();
 
         return (
@@ -174,22 +176,22 @@ class PageRouter extends Component {
 
 class ContentZone extends Component {
 
-    componentDidMount() {}
+    componentDidMount() { }
 
     renderModules = () => {
         let modules = []
-        
+
         const contentZoneName = this.props.name;
         const modulesForThisContentZone = this.props.page.zones[contentZoneName];
-        
-        if(modulesForThisContentZone === undefined) {
+
+        if (modulesForThisContentZone === undefined) {
             console.error(`Cannot render modules for zone "${contentZoneName}". This does not appear to be a valid content zone for this page template.`)
             return;
         }
 
         modulesForThisContentZone.forEach(moduleItem => {
             const ModuleComponentToRender = this.props.agility.config.moduleComponents[moduleItem.module];
-            if(ModuleComponentToRender) {
+            if (ModuleComponentToRender) {
                 const propsToModule = {
                     item: moduleItem.item,
                     pageInSitemap: this.props.pageInSitemap,
@@ -203,8 +205,8 @@ class ContentZone extends Component {
 
         return modules;
     }
-    
-    render() {    
+
+    render() {
         const renderModules = this.renderModules();
 
         return (

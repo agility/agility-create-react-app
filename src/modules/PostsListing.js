@@ -11,39 +11,35 @@ class PostsListing extends Component {
             dynamicUrls: {}
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
         const api = this.props.agility.client;
+        try {
+            //TODO: Need a proper way to cache the sitemap
+            //get sitemap first, need it to find the dynamic urls
+            let sitemap = await api.getSitemapFlat({
+                channelName: this.props.agility.config.channelName,
+                languageCode: this.props.agility.config.languageCode
+            });
 
-        //TODO: Need a proper way to cache the sitemap
-        //get sitemap first, need it to find the dynamic urls
-        api.getSitemapFlat({
-            channelName: this.props.agility.config.channelName,
-            languageCode: this.props.agility.config.languageCode
-        })
-        .then(sitemap => {
             //then get our posts
-            api.getContentList({
+            let contentListResult = await api.getContentList({
                 referenceName: 'posts',
                 languageCode: this.props.agility.config.languageCode
-            })
-            .then(contentListResult => {
-                console.log('posts', contentListResult);
-                const dynamicUrls = this.resolvePostUrls(sitemap, contentListResult.items)
-                this.setState({ posts: contentListResult.items, dynamicUrls: dynamicUrls })
-            })
-            .catch(error => {
-                console.error(error);
-            })
-        })
-        .catch(error => {
-            console.error(error);
-        })  
+            });
+
+            const dynamicUrls = this.resolvePostUrls(sitemap, contentListResult.items)
+            this.setState({ posts: contentListResult.items, dynamicUrls: dynamicUrls })
+
+        } catch (error) {
+            if (console) console.error(error);
+        }
+
     }
     resolvePostUrls(sitemap, posts) {
         let dynamicUrls = {};
         posts.forEach(post => {
             Object.keys(sitemap).forEach(path => {
-                if(sitemap[path].contentID === post.contentID) {
+                if (sitemap[path].contentID === post.contentID) {
                     dynamicUrls[post.contentID] = path;
                 }
             })
@@ -52,10 +48,10 @@ class PostsListing extends Component {
     }
     renderPostExcerpt(html) {
         const excerpt = truncate(html, { stripTags: true, length: 160 });
-        return {__html: excerpt};
+        return { __html: excerpt };
     }
     renderPosts() {
-        if(this.state.posts != null) {
+        if (this.state.posts != null) {
             let posts = [];
             this.state.posts.forEach(item => {
                 posts.push(
@@ -74,8 +70,8 @@ class PostsListing extends Component {
             return posts;
         }
     }
-    render() {    
-        
+    render() {
+
         return (
             <section className="posts-listing">
                 <div className="container">

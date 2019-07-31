@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@agility/content-fetch": "0.4.4",
+    "core-js": "^3.1.4",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0.0",
