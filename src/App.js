@@ -7,14 +7,19 @@ import './App.css';
 import { PageRouter } from './agility-react'
 
 //Shared Components
+import PreviewBar from './PreviewBar'
 import GlobalHeader from './GlobalHeader'
 
 class App extends Component {
+  componentDidMount() {
 
-  render() {    
+  }
+
+  render() {
     return (
       <div className="App">
-        <GlobalHeader agility={this.props.agility}/>
+        <PreviewBar agility={this.props.agility} />
+        <GlobalHeader agility={this.props.agility} />
         <main className="main">
           <Switch>
             <Route path="*" render={() => <PageRouter agility={this.props.agility} />} />

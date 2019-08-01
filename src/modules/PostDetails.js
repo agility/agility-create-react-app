@@ -29,7 +29,7 @@ class PostDetails extends Component {
     }
     renderPost() {
         let post = null;
-        console.log("post state", this.state.post);
+
         if (this.state.post != null) {
 
             post = (
