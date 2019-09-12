@@ -3,7 +3,7 @@
   "version": "0.2.2",
   "private": true,
   "dependencies": {
-    "@agility/content-fetch": "^0.5.0",
+    "@agility/content-fetch": "^0.5.4",
     "core-js": "^3.1.4",
     "query-string": "^6.8.2",
     "react": "^16.8.6",
